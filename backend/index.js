@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const path = require('path');
 const cors = require('cors');
+const { type } = require('os');
 require('dotenv').config();
 const PORT = 4000;
 
@@ -36,6 +37,75 @@ app.post('/upload', upload.single('product'), (req, res) => {
         success: 1,
         image_url: `http://localhost:${PORT}/images/${req.file.filename}`
     });
+});
+
+// Schema for Creating Products
+const Product = mongoose.model("Product", {
+    id: {
+        type: Number,
+        require: true
+    },
+    name: {
+        type: String,
+        require: true,
+    },
+    image: {
+        type: String,
+        require: true,
+    },
+    category: {
+        type: String,
+        require: true,
+    },
+    new_price: {
+        type: Number,
+        require: true
+    },
+    old_price: {
+        type: Number,
+        require: true,
+    },
+    date: {
+        type: Date,
+        default: Date.now,
+    },
+    available: {
+        type: Boolean,
+        default: true
+    },
+});
+
+app.post('/addproduct', async (req, res) => {
+    let products = await Product.find({});
+    let id;
+    if (products.length > 0) {
+        let last_product_array = products.slice(-1);
+        let last_product = last_product_array[0];
+        id = last_product.id + 1;
+    } else {
+        id = 1;
+    }
+    const { name, image, category, new_price, old_price } = req.body;
+    const product = new Product({
+        id,
+        name,
+        image,
+        category,
+        new_price,
+        old_price,
+    });
+
+    console.log(product);
+    try {
+        await product.save();
+        console.log("Saved");
+        res.json({
+            success: true,
+            name
+        });
+    } catch (error) {
+        console.error('Error: ', error);
+    }
 });
 
 app.listen(PORT, error => {
