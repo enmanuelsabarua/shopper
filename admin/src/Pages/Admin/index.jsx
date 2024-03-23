@@ -1,9 +1,10 @@
+import Sidebar from '../../Components/Sidebar';
 import './Admin.css';
 
 const Admin = () => {
     return (
         <div className='admin'>
-            Admin
+            <Sidebar />
         </div>
     )
 }
