@@ -18,7 +18,21 @@ const ShopContextProvider = ({ children }) => {
     useEffect(() => {
         fetch('http://localhost:4000/allproducts')
             .then(res => res.json())
-            .then(data => setAll_product(data))
+            .then(data => setAll_product(data));
+
+        if (localStorage.getItem('auth-token')) {
+            fetch('http://localhost:4000/getcart', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/form-data',
+                    'auth-token': `${localStorage.getItem('auth-token')}`,
+                    'Content-Type': 'application/json'
+                },
+                body: ''
+            })
+                .then(res => res.json())
+                .then(data => setCartItems(data));
+        }
     }, []);
 
     const addToCart = (itemId) => {
@@ -38,10 +52,10 @@ const ShopContextProvider = ({ children }) => {
                 .then(data => console.log(data));
         }
     }
-    
+
     const removeFromCart = (itemId) => {
         setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
-        
+
         if (localStorage.getItem('auth-token')) {
             fetch('http://localhost:4000/removefromcart', {
                 method: 'DELETE',
