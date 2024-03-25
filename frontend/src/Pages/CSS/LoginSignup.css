@@ -17,6 +17,10 @@
   margin: 20px 0;
 }
 
+.loginsignup-container span:hover {
+  cursor: pointer;
+}
+
 .loginsignup-fields {
   display: flex;
   flex-direction: column;
