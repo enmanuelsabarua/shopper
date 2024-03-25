@@ -157,7 +157,7 @@ const Users = mongoose.model('Users', {
 
 // Creating Endpoint for registering the user
 app.post('/signup', async (req, res) => {
-    const { name, email, password } = req.body;
+    const { username, email, password } = req.body;
     let check = await Users.findOne({ email });
 
     if (check) {
@@ -171,7 +171,7 @@ app.post('/signup', async (req, res) => {
         cart[i] = 0;
     }
     const user = new Users({
-        name,
+        name: username,
         email,
         password,
         cartData: cart,
@@ -190,6 +190,39 @@ app.post('/signup', async (req, res) => {
         success: true,
         token
     });
+});
+
+// Creating endpoint for user login
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+    let user = await Users.findOne({ email });
+    if (user) {
+        const passCompare = password === user.password;
+
+        if (passCompare) {
+            const data = {
+                user: {
+                    id: user.id
+                }
+            }
+            const token = jwt.sign(data, 'secret_ecom');
+            res.json({
+                success: true,
+                token
+            });
+        } else {
+            res.json({
+                success: false,
+                errors: "Wrong Password"
+            });
+        }
+
+    } else {
+        res.json({
+            success: false,
+            errors: "Wrong Email Id"
+        });
+    }
 });
 
 app.listen(PORT, error => {
