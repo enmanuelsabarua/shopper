@@ -7,7 +7,8 @@ const path = require('path');
 const cors = require('cors');
 const { type } = require('os');
 require('dotenv').config();
-const PORT = 4000;
+const PORT = process.env.PORT;
+const secretKey = process.env.SECRET_KEY;
 
 app.use(express.json());
 app.use(cors());
@@ -185,7 +186,7 @@ app.post('/signup', async (req, res) => {
         }
     }
 
-    const token = jwt.sign(data, 'secret_ecom');
+    const token = jwt.sign(data, secretKey);
     res.json({
         success: true,
         token
@@ -205,7 +206,7 @@ app.post('/login', async (req, res) => {
                     id: user.id
                 }
             }
-            const token = jwt.sign(data, 'secret_ecom');
+            const token = jwt.sign(data, secretKey);
             res.json({
                 success: true,
                 token
@@ -250,7 +251,7 @@ const fetchUser = async (req, res, next) => {
         });
     } else {
         try {
-            const data = jwt.verify(token, 'secret_ecom');
+            const data = jwt.verify(token, secretKey);
             req.user = data.user;
             next();
         } catch (error) {
