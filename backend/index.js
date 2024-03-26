@@ -5,20 +5,15 @@ const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const path = require('path');
 const cors = require('cors');
-const { type } = require('os');
 require('dotenv').config();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 4000;
 const secretKey = process.env.SECRET_KEY;
 
 app.use(express.json());
-app.use(cors({
-    origin: [''],
-    methods: ['POST', 'GET'],
-    credentials: true
-}));
+app.use(cors());
 
 // Database Connection With MongoDB
-mongoose.connect(process.env.MONGODBURL);
+mongoose.connect(process.env.MONGODB_URI);
 
 // API Creation
 app.get('/', (req, res) => {
