@@ -79,6 +79,11 @@ Before running the application, make sure you have the following installed:
    - Frontend: <http://localhost:5173/>
    - Admin Dashboard: <http://localhost:5174/>
 
+   App in production:
+
+   - Frontend: [Shopper App](https://shopper-one-ashy.vercel.app/)
+   - Admin Dashboard: [Shopper Admin Panel](https://shopper-admin-iota.vercel.app/)
+
 ### Project Structure
 
 - **backend/**: Contains the backend codebase built with Node.js, Express.js, and MongoDB.
