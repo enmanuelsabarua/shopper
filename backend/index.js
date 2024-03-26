@@ -11,7 +11,11 @@ const PORT = process.env.PORT;
 const secretKey = process.env.SECRET_KEY;
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: [''],
+    methods: ['POST', 'GET'],
+    credentials: true
+}));
 
 // Database Connection With MongoDB
 mongoose.connect(process.env.MONGODBURL);
