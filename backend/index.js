@@ -35,7 +35,7 @@ app.use('/images', express.static('upload/images'));
 app.post('/upload', upload.single('product'), (req, res) => {
     res.json({
         success: 1,
-        image_url: `http://localhost:${PORT}/images/${req.file.filename}`
+        image_url: `https://shopper-production.up.railway.app/images/${req.file.filename}`
     });
 });
 

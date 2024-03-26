@@ -29,7 +29,7 @@ const AddProduct = () => {
         let formData = new FormData();
         formData.append('product', image);
 
-        await fetch('http://localhost:4000/upload', {
+        await fetch('https://shopper-production.up.railway.app/upload', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -41,7 +41,7 @@ const AddProduct = () => {
 
         if (responseData.success) {
             product.image = responseData.image_url;
-            await fetch('http://localhost:4000/addproduct', {
+            await fetch('https://shopper-production.up.railway.app/addproduct', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
